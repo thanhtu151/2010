@@ -91,11 +91,6 @@ body {
     to { transform: rotate(360deg); }
 }
 
-.subtitle {
-    font-size: 1.2rem;
-    color: #666;
-    font-weight: 300;
-}
 
 /* Interactive Main */
 .interactive-main {

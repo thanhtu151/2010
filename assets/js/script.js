@@ -312,21 +312,6 @@ function createRandomRose(x, y) {
     }, 1800);
 }
 
-// Add welcome message on load
-window.addEventListener('load', function() {
-    setTimeout(() => {
-        const messagesDisplay = document.getElementById('messagesDisplay');
-        if (messagesDisplay) {
-            const welcomeMessage = document.createElement('div');
-            welcomeMessage.className = 'message-item';
-            welcomeMessage.innerHTML = `
-                <p>Welcome to our Women's Day celebration! Click on any emoji above to discover beautiful messages. 🌹</p>
-                <span class="message-time">Just now</span>
-            `;
-            messagesDisplay.appendChild(welcomeMessage);
-        }
-    }, 1000);
-});
 
 // Add hover effects to the main title
 const mainTitle = document.querySelector('.main-title');
