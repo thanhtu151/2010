@@ -130,6 +130,10 @@
 html, body, * {
   cursor: var(--cupid-cursor) 2 2, auto !important;
 }
+/* --- FIX: cho phép click xuyên qua lớp mưa, nhưng emoji vẫn bấm được --- */
+.falling-area { pointer-events: none; }   /* lớp phủ không nhận click */
+.falling-item { pointer-events: auto; }   /* riêng từng emoji vẫn nhận click */
+#bouquet { position: relative; z-index: 20; } /* bó hoa nổi lên để chắc chắn nhận click */
 
   </style>
 </head>
