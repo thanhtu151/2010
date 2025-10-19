@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeInteractiveFeatures();
     createFloatingRoses();
     setupClickHandlers();
-    setupMessageSystem();
 });
 
 // Create floating roses background
@@ -151,102 +150,6 @@ function createCelebrationParticles() {
     }
 }
 
-// Setup message system
-function setupMessageSystem() {
-    const messageInput = document.getElementById('messageInput');
-    const sendBtn = document.querySelector('.send-btn');
-
-    if (sendBtn) {
-        sendBtn.addEventListener('click', shareMessage);
-    }
-
-    if (messageInput) {
-        // Allow Ctrl+Enter to send message
-        messageInput.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                shareMessage();
-            }
-        });
-    }
-}
-
-// Share message function
-function shareMessage() {
-    const messageInput = document.getElementById('messageInput');
-    const messagesDisplay = document.getElementById('messagesDisplay');
-    const messageText = messageInput.value.trim();
-
-    if (messageText === '') {
-        alert('Please write a beautiful message first! 💖');
-        return;
-    }
-
-    // Create message element
-    const messageItem = document.createElement('div');
-    messageItem.className = 'message-item';
-
-    const currentTime = new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-
-    messageItem.innerHTML = `
-        <p>${escapeHtml(messageText)}</p>
-        <span class="message-time">${currentTime}</span>
-    `;
-
-    // Add to display
-    messagesDisplay.insertBefore(messageItem, messagesDisplay.firstChild);
-
-    // Clear input
-    messageInput.value = '';
-
-    // Create celebration effect
-    createMessageCelebration();
-
-    // Limit messages to prevent overcrowding
-    const messages = messagesDisplay.querySelectorAll('.message-item');
-    if (messages.length > 5) {
-        messagesDisplay.removeChild(messages[messages.length - 1]);
-    }
-}
-
-// Escape HTML to prevent XSS
-function escapeHtml(text) {
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, m => map[m]);
-}
-
-// Create message celebration effect
-function createMessageCelebration() {
-    const hearts = ['💖', '💕', '💗', '💝', '💘'];
-    const messageArea = document.querySelector('.message-area');
-    const rect = messageArea.getBoundingClientRect();
-
-    for (let i = 0; i < 10; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'celebration-particle';
-        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-        heart.style.left = (rect.left + Math.random() * rect.width) + 'px';
-        heart.style.top = (rect.top + rect.height / 2) + 'px';
-        heart.style.fontSize = (20 + Math.random() * 15) + 'px';
-        heart.style.color = '#ff69b4';
-
-        document.body.appendChild(heart);
-
-        setTimeout(() => {
-            if (document.body.contains(heart)) {
-                document.body.removeChild(heart);
-            }
-        }, 2000);
-    }
-}
 
 // Add keyboard navigation
 document.addEventListener('keydown', function(e) {
