@@ -198,3 +198,65 @@ h1 {
         opacity: 1;
     }
 }
+/* === Falling emojis area === */
+.falling-area {
+  position: fixed;
+  pointer-events: none;
+  inset: 0;
+  overflow: hidden;
+  z-index: 5; /* dưới tiêu đề, trên nền */
+}
+
+/* Item đang rơi */
+.falling-item {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  animation: fallDown linear forwards;
+  filter: drop-shadow(0 6px 10px rgba(255, 105, 180, 0.35));
+  user-select: none;
+}
+
+@keyframes fallDown {
+  0%   { transform: translate(-50%, -10%) rotate(0deg);   opacity: 0.9; }
+  100% { transform: translate(-50%, 110vh) rotate(360deg); opacity: 0; }
+}
+
+/* Hoa/emoji nền bay chậm */
+.floating-rose {
+  position: fixed;
+  top: -10%;
+  font-size: 2.2rem;
+  opacity: 0.25;
+  pointer-events: none;
+  animation: floatRose linear infinite;
+  z-index: 2;
+}
+
+@keyframes floatRose {
+  0%   { transform: translateY(-10%) translateX(0) rotate(0deg); }
+  100% { transform: translateY(120vh) translateX(40px) rotate(360deg); }
+}
+
+/* Hạt pháo bông khi click/hiện lời chúc */
+.celebration-particle {
+  position: fixed;
+  transform: translate(0,0);
+  transition: transform 1s ease-out, opacity 1s ease-out;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 999;
+}
+
+@keyframes particleFall {
+  from { transform: translateY(-10px); opacity: 1; }
+  to   { transform: translateY(30px); opacity: 0; }
+}
+
+/* Khi emoji bị click */
+.falling-item.clicked {
+  transform: scale(1.2);
+  transition: transform .2s;
+}
