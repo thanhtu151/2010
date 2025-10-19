@@ -134,6 +134,32 @@ html, body, * {
 .falling-area { pointer-events: none; }   /* lớp phủ không nhận click */
 .falling-item { pointer-events: auto; }   /* riêng từng emoji vẫn nhận click */
 #bouquet { position: relative; z-index: 20; } /* bó hoa nổi lên để chắc chắn nhận click */
+/* Icon đặc biệt có thông điệp */
+.falling-item.special{
+  font-size: 2.4rem !important;
+  animation-duration: 7s !important;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 120, .6));
+  animation-name: fallDown, pulseGlow !important;
+  animation-timing-function: linear, ease-in-out !important;
+  animation-iteration-count: 1, infinite !important;
+  animation-duration: 7s, 1.2s !important;
+}
+@keyframes pulseGlow {
+  0%{ transform: translate(-50%, var(--y, -10%)) scale(1); }
+  50%{ transform: translate(-50%, var(--y, -10%)) scale(1.15); }
+  100%{ transform: translate(-50%, var(--y, -10%)) scale(1); }
+}
+/* Nhãn "Nhấn mình 💌" dưới icon đặc biệt */
+.falling-item.special::after{
+  content: "Nhấn mình 💌";
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  top: 28px;
+  font-size: 12px; color: #c2185b;
+  background: rgba(255,255,255,.85);
+  padding: 2px 8px; border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
 
   </style>
 </head>
@@ -175,23 +201,49 @@ html, body, * {
     const rand=a=>a[Math.floor(Math.random()*a.length)];
     function pick(icon){if(['💖','💕','💞','🩷'].includes(icon))return CATALOG.heart;if(['🌸','🌹','🌷','💐'].includes(icon))return CATALOG.flower;return CATALOG.sparkle;}
 
-    const area=document.getElementById('fallingArea');
-    function createEmoji(){
-      const d=document.createElement('div');
-      d.className='falling-item';
-      const ch=rand(ICONS);
-      d.textContent=ch;
-      d.style.left=Math.random()*100+'vw';
-      d.style.animationDuration=(3+Math.random()*3)+'s';
-      d.addEventListener('click',e=>{
-        e.stopPropagation();
-        const pk=pick(ch);
-        openModal(rand(pk.images),rand(pk.texts));
-      });
-      area.appendChild(d);
-      setTimeout(()=>d.remove(),6500);
+    const area = document.getElementById('fallingArea');
+    
+    // Giảm mật độ + giới hạn số icon đang hiển thị
+    const MAX_FALLING = 50;           // tránh quá nhiều
+    const SPAWN_MS    = 600;          // 300 -> 600 cho thưa hơn
+    
+    function openRandomModal() {
+      // lấy ngẫu nhiên 1 ảnh + text như bạn đã làm (tận dụng CATALOG có sẵn)
+      const allPacks = Object.values(CATALOG);
+      const pk = allPacks[Math.floor(Math.random() * allPacks.length)];
+      openModal(pk.images[Math.floor(Math.random()*pk.images.length)],
+                pk.texts[Math.floor(Math.random()*pk.texts.length)]);
     }
-    setInterval(createEmoji,300);
+    
+    function createFallingEmoji() {
+      if (area.childElementCount > MAX_FALLING) return; // giới hạn
+    
+      const emoji = document.createElement('div');
+      emoji.className = 'falling-item';
+    
+      // 20% là icon “đặc biệt” có thông điệp
+      const isSpecial = Math.random() < 0.2;
+      if (isSpecial) {
+        emoji.classList.add('special');
+        emoji.textContent = '💌';               // dùng biểu tượng riêng cho dễ nhận
+        emoji.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openRandomModal();
+        });
+      } else {
+        // icon thường (trang trí)
+        const icons = ['💖', '🌸', '🌹', '💐', '✨', '💕', '🩷', '🌷', '💞'];
+        emoji.textContent = icons[Math.floor(Math.random() * icons.length)];
+      }
+    
+      emoji.style.left = Math.random() * 100 + 'vw';
+      emoji.style.animationDuration = (3 + Math.random() * 3) + 's';
+      area.appendChild(emoji);
+      setTimeout(() => emoji.remove(), 7000);
+    }
+    clearInterval(window._spawnTimer);
+    window._spawnTimer = setInterval(createFallingEmoji, SPAWN_MS);
+
 
     const rose=document.getElementById('roseContainer');
     function createRose(){
