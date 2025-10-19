@@ -207,9 +207,9 @@ html, body, * {
   <script>
     const ICONS = ['💖','🌸','🌹','💐','✨','💕','🩷','🌷','💞'];
     const CATALOG = {
-      heart:{images:['https://thanhtu151.github.io/2010/image1.jpg','https://thanhtu151.github.io/2010/image2.jpg'],texts:['Sáng ra ăn tô cháo lòng <br> Cháo anh ăn hết chừa lòng yêu em 💖','Anh thích chơi nhạc <br>Anh có thể mời ba em làm "nhạc phụ" được hong 💗']},
-      flower:{images:['https://thanhtu151.github.io/2010/image4.jpg','https://thanhtu151.github.io/2010/image3.jpg'],texts:['Nếu em là tư niễn thì anh sẽ là đằng tương<br>Đằng này tương tư đằng ấy🌷','Thức đêm anh tỉnh bằng trà<br>Yêu em anh trả bằng tình được hem 🌹']},
-      sparkle:{images:['https://thanhtu151.github.io/2010/image5.jpg'],texts:['Anh hay bị rối loạn giấc ngủ<br>Vì tối nào cũng mộng you✨']}
+      heart:{images:['https://thanhtu151.github.io/2010/image1.jpg','https://thanhtu151.github.io/2010/image2.jpg'],texts:['Sáng ra ăn tô cháo lòng \nCháo anh ăn hết chừa lòng yêu em 💖','Anh thích chơi nhạc \nAnh có thể mời ba em làm "nhạc phụ" được hong 💗']},
+      flower:{images:['https://thanhtu151.github.io/2010/image4.jpg','https://thanhtu151.github.io/2010/image3.jpg'],texts:['Nếu em là tư niễn thì anh sẽ là đằng tương\nĐằng này tương tư đằng ấy🌷','Thức đêm anh tỉnh bằng trà \nYêu em anh trả bằng tình được hem 🌹']},
+      sparkle:{images:['https://thanhtu151.github.io/2010/image5.jpg'],texts:['Anh hay bị rối loạn giấc ngủ \nVì tối nào cũng mộng you✨']}
     };
     const rand=a=>a[Math.floor(Math.random()*a.length)];
     function pick(icon){if(['💖','💕','💞','🩷'].includes(icon))return CATALOG.heart;if(['🌸','🌹','🌷','💐'].includes(icon))return CATALOG.flower;return CATALOG.sparkle;}
@@ -294,6 +294,7 @@ html, body, * {
     const close=document.getElementById('closeBtn');
     function openModal(img,text){
       mImg.src=img; mText.textContent=text;
+      modalText.innerHTML = text.replace(/\n/g, "<br>");
       overlay.style.display='grid'; overlay.setAttribute('aria-hidden','false');
     }
     function closeModal(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');}
