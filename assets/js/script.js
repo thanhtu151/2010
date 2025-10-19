@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     initializeInteractiveFeatures();
     createFloatingRoses();
+    startFallingEmojis();
     setupClickHandlers();
 });
 
@@ -10,7 +11,7 @@ function createFloatingRoses() {
     const roseContainer = document.getElementById('roseContainer');
     const roseEmojis = ['🌹', '🌸', '💐', '🌺'];
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
         const rose = document.createElement('div');
         rose.className = 'floating-rose';
         rose.textContent = roseEmojis[Math.floor(Math.random() * roseEmojis.length)];
@@ -23,41 +24,107 @@ function createFloatingRoses() {
 
 // Initialize interactive features
 function initializeInteractiveFeatures() {
-    // Add hover sound effects (optional)
-    const clickableItems = document.querySelectorAll('.clickable-item');
-    clickableItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.05) rotate(2deg)';
+    // Add hover effects to title
+    const mainTitle = document.querySelector('.main-title');
+    if (mainTitle) {
+        mainTitle.addEventListener('mouseenter', function() {
+            createTitleSparkles();
         });
-
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1) rotate(0deg)';
-        });
-    });
+    }
 }
 
-// Setup click handlers for interactive elements
-function setupClickHandlers() {
-    const clickableItems = document.querySelectorAll('.clickable-item');
+// Start falling emojis system
+function startFallingEmojis() {
+    const fallingArea = document.getElementById('fallingArea');
+    if (!fallingArea) return;
 
-    clickableItems.forEach(item => {
-        item.addEventListener('click', function(e) {
+    // Define emoji types and their content
+    const emojiTypes = [
+        { emoji: '🌹', class: 'rose', content: 'strength' },
+        { emoji: '💖', class: 'heart', content: 'beauty' },
+        { emoji: '⭐', class: 'star', content: 'wisdom' },
+        { emoji: '🌸', class: 'flower', content: 'love' },
+        { emoji: '🎁', class: 'gift', content: 'inspiration' },
+        { emoji: '👑', class: 'crown', content: 'excellence' },
+        { emoji: '💎', class: 'diamond', content: 'strength' },
+        { emoji: '🦋', class: 'butterfly', content: 'beauty' },
+        { emoji: '✨', class: 'sparkle', content: 'wisdom' },
+        { emoji: '🌺', class: 'flower', content: 'love' },
+        { emoji: '💝', class: 'heart', content: 'inspiration' },
+        { emoji: '🏆', class: 'crown', content: 'excellence' }
+    ];
+
+    // Create falling emojis continuously
+    function createFallingEmoji() {
+        const randomType = emojiTypes[Math.floor(Math.random() * emojiTypes.length)];
+        const fallingItem = document.createElement('div');
+        fallingItem.className = `falling-item ${randomType.class}`;
+        fallingItem.textContent = randomType.emoji;
+        fallingItem.dataset.content = randomType.content;
+
+        // Random horizontal position
+        const randomX = Math.random() * 90 + 5; // 5% to 95% to avoid edges
+        fallingItem.style.left = randomX + '%';
+
+        // Random fall duration (between 5 and 12 seconds)
+        const fallDuration = Math.random() * 7 + 5;
+        fallingItem.style.animationDuration = fallDuration + 's';
+
+        // Random size
+        const randomSize = Math.random() * 1.5 + 2; // 2rem to 3.5rem
+        fallingItem.style.fontSize = randomSize + 'rem';
+
+        // Add click event
+        fallingItem.addEventListener('click', function(e) {
             e.preventDefault();
-
-            // Add clicked animation
-            this.classList.add('clicked');
-            setTimeout(() => {
-                this.classList.remove('clicked');
-            }, 600);
-
-            // Get the content type
-            const contentType = this.dataset.content;
-            if (contentType) {
-                showContent(contentType);
-                createClickEffect(e.pageX, e.pageY);
-            }
+            handleFallingItemClick(this, e);
         });
-    });
+
+        fallingArea.appendChild(fallingItem);
+
+        // Remove emoji after animation completes
+        setTimeout(() => {
+            if (fallingArea.contains(fallingItem)) {
+                fallingArea.removeChild(fallingItem);
+            }
+        }, fallDuration * 1000);
+    }
+
+    // Create first batch immediately
+    for (let i = 0; i < 8; i++) {
+        setTimeout(() => createFallingEmoji(), i * 200);
+    }
+
+    // Continue creating new falling emojis
+    setInterval(createFallingEmoji, 1500);
+
+    // Create extra emojis more frequently for more interaction
+    setInterval(() => {
+        if (Math.random() > 0.3) { // 70% chance
+            createFallingEmoji();
+        }
+    }, 800);
+}
+
+// Handle falling item click
+function handleFallingItemClick(item, event) {
+    // Add clicked animation
+    item.classList.add('clicked');
+    setTimeout(() => {
+        item.classList.remove('clicked');
+    }, 600);
+
+    // Get content type
+    const contentType = item.dataset.content;
+    if (contentType) {
+        showContent(contentType);
+        createClickEffect(event.pageX, event.pageY);
+    }
+}
+
+// Setup click handlers (for any remaining elements)
+function setupClickHandlers() {
+    // Any additional click handlers can be added here
 }
 
 // Show content dropdown
@@ -150,7 +217,6 @@ function createCelebrationParticles() {
     }
 }
 
-
 // Add keyboard navigation
 document.addEventListener('keydown', function(e) {
     // ESC to close any open content
@@ -176,9 +242,9 @@ document.addEventListener('click', function(e) {
     // Random rose drops on empty clicks
     if (e.target === document.body ||
         e.target.classList.contains('interactive-main') ||
-        e.target.classList.contains('content-areas')) {
+        e.target.classList.contains('falling-area')) {
 
-        if (Math.random() > 0.7) { // 30% chance
+        if (Math.random() > 0.6) { // 40% chance
             createRandomRose(e.pageX, e.pageY);
         }
     }
@@ -215,17 +281,11 @@ function createRandomRose(x, y) {
     }, 1800);
 }
 
-
-// Add hover effects to the main title
-const mainTitle = document.querySelector('.main-title');
-if (mainTitle) {
-    mainTitle.addEventListener('mouseenter', function() {
-        createTitleSparkles();
-    });
-}
-
 // Create sparkles around title
 function createTitleSparkles() {
+    const mainTitle = document.querySelector('.main-title');
+    if (!mainTitle) return;
+
     const titleRect = mainTitle.getBoundingClientRect();
     const sparkles = ['✨', '⭐', '💫'];
 
