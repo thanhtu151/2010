@@ -267,5 +267,31 @@
 
     // Tip: bật nhạc tự động có thể bị chặn; chỉ cần người dùng click vào trang 1 cái là phát được.
   </script>
+  <!-- Nút bật nhạc -->
+<div id="musicBtn"
+     style="position:fixed;bottom:20px;right:20px;z-index:9999;
+            background:rgba(255,255,255,0.8);padding:10px 20px;
+            border-radius:30px;cursor:pointer;
+            box-shadow:0 0 10px rgba(255,100,150,0.5);
+            font-weight:bold;color:#d63384;">
+  🎵 Bật nhạc
+</div>
+
+<script>
+const music = document.getElementById('bgMusic');
+const btn = document.getElementById('musicBtn');
+let playing = false;
+
+btn.onclick = () => {
+  if (!playing) {
+    music.play();
+    btn.textContent = "🔊 Đang phát nhạc";
+  } else {
+    music.pause();
+    btn.textContent = "🎵 Bật nhạc";
+  }
+  playing = !playing;
+};
+</script>
 </body>
 </html>
