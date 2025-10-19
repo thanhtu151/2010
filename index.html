@@ -1,148 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Women's Day - Interactive Celebration</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>💖 Happy Woman Day 💖</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="rose-container" id="roseContainer"></div>
+  <h1>💐 HAPPY WOMAN DAY 💐</h1>
 
-    <header class="header">
-        <div class="header-content">
-            <h1 class="main-title">
-                <span class="title-rose">🌹</span>
-                HAPPY WOMEN DAY
-                <span class="title-rose">🌹</span>
-            </h1>
-        </div>
-    </header>
+  <img src="https://pngimg.com/uploads/bouquet/bouquet_PNG63.png"
+       class="bouquet" id="bouquet" alt="Bouquet">
 
-    <main class="interactive-main">
-        <div class="falling-area" id="fallingArea">
-            <!-- Falling emojis and icons will appear here -->
-        </div>
+  <div class="message-box" id="messageBox">
+    <img src="https://i.pinimg.com/originals/76/f9/3d/76f93d3a2f69a3a2d07310f7b1cfe7c1.png"
+         alt="Chibi">
+    <p id="wishText">Chúc em luôn xinh đẹp, vui vẻ và được yêu thương như bông hoa này 🌸💖</p>
+  </div>
 
-        <!-- Dynamic Image Display at Bottom -->
-        <div class="dynamic-image-container" id="dynamicImageContainer">
-            <div class="image-carousel" id="imageCarousel">
-                <div class="dynamic-image active" data-content="strength">
-                    <div class="image-circle strength-circle">
-                        <div class="image-emoji">💪</div>
-                    </div>
-                    <p>Strength</p>
-                </div>
-                <div class="dynamic-image" data-content="beauty">
-                    <div class="image-circle beauty-circle">
-                        <div class="image-emoji">✨</div>
-                    </div>
-                    <p>Beauty</p>
-                </div>
-                <div class="dynamic-image" data-content="wisdom">
-                    <div class="image-circle wisdom-circle">
-                        <div class="image-emoji">🧠</div>
-                    </div>
-                    <p>Wisdom</p>
-                </div>
-                <div class="dynamic-image" data-content="love">
-                    <div class="image-circle love-circle">
-                        <div class="image-emoji">💕</div>
-                    </div>
-                    <p>Love</p>
-                </div>
-                <div class="dynamic-image" data-content="inspiration">
-                    <div class="image-circle inspiration-circle">
-                        <div class="image-emoji">🌟</div>
-                    </div>
-                    <p>Inspiration</p>
-                </div>
-                <div class="dynamic-image" data-content="excellence">
-                    <div class="image-circle excellence-circle">
-                        <div class="image-emoji">🏆</div>
-                    </div>
-                    <p>Excellence</p>
-                </div>
-            </div>
-        </div>
+  <audio id="bgMusic" loop autoplay>
+    <source src="https://cdn.pixabay.com/download/audio/2023/07/21/audio_14a53c2514.mp3?filename=spring-romantic-piano-147085.mp3" type="audio/mpeg">
+  </audio>
 
-        <!-- Content Dropdown Areas -->
-        <div class="content-areas">
-            <div class="content-dropdown" id="strength-content">
-                <div class="dropdown-content">
-                    <div class="content-text">
-                        <h3>Incredible Strength</h3>
-                        <p>Women possess an incredible strength that moves mountains and changes the world. Through challenges and triumphs, their resilience shines bright.</p>
-                        <p>Every woman carries within her the power to overcome, to endure, and to inspire others with her unwavering determination.</p>
-                    </div>
-                    <button class="close-btn" onclick="closeContent('strength-content')">✨</button>
-                </div>
-            </div>
-
-            <div class="content-dropdown" id="beauty-content">
-                <div class="dropdown-content">
-                    <div class="content-text">
-                        <h3>Timeless Beauty</h3>
-                        <p>Beauty comes in all forms, shapes, and colors. Every woman radiates a unique beauty that captivates and inspires.</p>
-                        <p>True beauty shines from within - through kindness, confidence, and the grace with which women navigate life's journey.</p>
-                    </div>
-                    <button class="close-btn" onclick="closeContent('beauty-content')">✨</button>
-                </div>
-            </div>
-
-            <div class="content-dropdown" id="wisdom-content">
-                <div class="dropdown-content">
-                    <div class="content-text">
-                        <h3>Precious Wisdom</h3>
-                        <p>Women carry generations of wisdom within them, guiding families and communities with insight and understanding.</p>
-                        <p>Their intuition and knowledge create pathways where none existed, lighting the way for others to follow.</p>
-                    </div>
-                    <button class="close-btn" onclick="closeContent('wisdom-content')">✨</button>
-                </div>
-            </div>
-
-            <div class="content-dropdown" id="love-content">
-                <div class="dropdown-content">
-                    <div class="content-text">
-                        <h3>Boundless Love</h3>
-                        <p>A woman's love knows no bounds - it heals, nurtures, and transforms everything it touches.</p>
-                        <p>Through love, women create homes, build communities, and make the world a warmer, more compassionate place.</p>
-                    </div>
-                    <button class="close-btn" onclick="closeContent('love-content')">✨</button>
-                </div>
-            </div>
-
-            <div class="content-dropdown" id="inspiration-content">
-                <div class="dropdown-content">
-                    <div class="content-text">
-                        <h3>Daily Inspiration</h3>
-                        <p>Women inspire through their actions, their words, and their very existence. They are role models and pioneers.</p>
-                        <p>Every achievement, big or small, paves the way for others and shows that anything is possible.</p>
-                    </div>
-                    <button class="close-btn" onclick="closeContent('inspiration-content')">✨</button>
-                </div>
-            </div>
-
-            <div class="content-dropdown" id="excellence-content">
-                <div class="dropdown-content">
-                    <div class="content-text">
-                        <h3>Outstanding Excellence</h3>
-                        <p>Women excel in every field imaginable - breaking barriers and setting new standards of achievement.</p>
-                        <p>From science to arts, from homes to boardrooms, women demonstrate excellence that elevates everyone around them.</p>
-                    </div>
-                    <button class="close-btn" onclick="closeContent('excellence-content')">✨</button>
-                </div>
-            </div>
-        </div>
-
-      </main>
-
-    <footer class="footer">
-        <p>Made with ❤️ for all the amazing women in the world</p>
-        <p>Click everywhere to discover more! 🌹</p>
-    </footer>
-
-    <script src="assets/js/script.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
