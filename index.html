@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Women's Day - Celebrating Amazing Women</title>
+    <title>Happy Women's Day - Interactive Celebration</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -11,116 +11,153 @@
     <div class="rose-container" id="roseContainer"></div>
 
     <header class="header">
-        <nav class="navbar">
-            <div class="nav-brand">🌹 Women's Day</div>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#tribute">Tribute</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#messages">Messages</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
+        <div class="header-content">
+            <h1 class="main-title">
+                <span class="title-rose">🌹</span>
+                Happy Women's Day
+                <span class="title-rose">🌹</span>
+            </h1>
+            <p class="subtitle">Click anywhere to discover beautiful surprises</p>
+        </div>
     </header>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="animate-text">Happy</span>
-                    <span class="animate-text">Women's</span>
-                    <span class="animate-text">Day</span>
-                </h1>
-                <div class="rose-animation">
-                    <div class="rose">🌹</div>
-                </div>
-                <p class="hero-subtitle">Celebrating the strength, beauty, and power of women worldwide</p>
-                <button class="cta-button" onclick="scrollToSection('tribute')">Celebrate Together</button>
+    <main class="interactive-main">
+        <div class="clickable-grid" id="clickableGrid">
+            <!-- Roses to click -->
+            <div class="clickable-item rose-item" data-content="strength">
+                <div class="click-element">🌹</div>
+                <p>Click for Strength</p>
             </div>
-            <div class="floating-hearts" id="floatingHearts"></div>
-        </section>
 
-        <section id="tribute" class="tribute">
-            <div class="container">
-                <h2 class="section-title">A Tribute to Women</h2>
-                <div class="tribute-cards">
-                    <div class="tribute-card" data-aos="fade-up">
-                        <div class="card-icon">💪</div>
-                        <h3>Strength</h3>
-                        <p>Celebrating the incredible strength and resilience that women demonstrate every day.</p>
-                    </div>
-                    <div class="tribute-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="card-icon">✨</div>
-                        <h3>Beauty</h3>
-                        <p>Honoring the unique beauty and grace that women bring to the world.</p>
-                    </div>
-                    <div class="tribute-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="card-icon">🌟</div>
-                        <h3>Excellence</h3>
-                        <p>Recognizing the outstanding achievements and contributions of women.</p>
-                    </div>
-                </div>
+            <div class="clickable-item heart-item" data-content="beauty">
+                <div class="click-element">💖</div>
+                <p>Click for Beauty</p>
             </div>
-        </section>
 
-        <section id="gallery" class="gallery">
-            <div class="container">
-                <h2 class="section-title">Moments of Celebration</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-item" data-aos="zoom-in">
-                        <div class="gallery-content">
-                            <div class="rose-large">🌹</div>
-                            <p>Every woman is a rose that blooms with unique beauty</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="gallery-content">
-                            <div class="inspiration-icon">💖</div>
-                            <p>Spreading love and inspiration to all women</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="gallery-content">
-                            <div class="celebration-icon">🎉</div>
-                            <p>Celebrating achievements big and small</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="clickable-item star-item" data-content="wisdom">
+                <div class="click-element">⭐</div>
+                <p>Click for Wisdom</p>
             </div>
-        </section>
 
-        <section id="messages" class="messages">
-            <div class="container">
-                <h2 class="section-title">Share Your Message</h2>
-                <div class="message-form">
-                    <textarea id="messageInput" placeholder="Write a beautiful message for the amazing women in your life..." rows="4"></textarea>
-                    <button class="submit-btn" onclick="addMessage()">Send Love 💝</button>
-                </div>
-                <div class="messages-display" id="messagesDisplay">
-                    <div class="message-item">
-                        <div class="message-avatar">👩</div>
-                        <div class="message-content">
-                            <p>To all the incredible women out there - you make the world more beautiful!</p>
-                            <span class="message-time">Just now</span>
-                        </div>
+            <div class="clickable-item flower-item" data-content="love">
+                <div class="click-element">🌸</div>
+                <p>Click for Love</p>
+            </div>
+
+            <div class="clickable-item gift-item" data-content="inspiration">
+                <div class="click-element">🎁</div>
+                <p>Click for Inspiration</p>
+            </div>
+
+            <div class="clickable-item crown-item" data-content="excellence">
+                <div class="click-element">👑</div>
+                <p>Click for Excellence</p>
+            </div>
+        </div>
+
+        <!-- Content Dropdown Areas -->
+        <div class="content-areas">
+            <div class="content-dropdown" id="strength-content">
+                <div class="dropdown-content">
+                    <div class="content-image">
+                        <div class="image-placeholder strength-img">💪</div>
                     </div>
+                    <div class="content-text">
+                        <h3>Incredible Strength</h3>
+                        <p>Women possess an incredible strength that moves mountains and changes the world. Through challenges and triumphs, their resilience shines bright.</p>
+                        <p>Every woman carries within her the power to overcome, to endure, and to inspire others with her unwavering determination.</p>
+                    </div>
+                    <button class="close-btn" onclick="closeContent('strength-content')">✨</button>
                 </div>
             </div>
-        </section>
+
+            <div class="content-dropdown" id="beauty-content">
+                <div class="dropdown-content">
+                    <div class="content-image">
+                        <div class="image-placeholder beauty-img">✨</div>
+                    </div>
+                    <div class="content-text">
+                        <h3>Timeless Beauty</h3>
+                        <p>Beauty comes in all forms, shapes, and colors. Every woman radiates a unique beauty that captivates and inspires.</p>
+                        <p>True beauty shines from within - through kindness, confidence, and the grace with which women navigate life's journey.</p>
+                    </div>
+                    <button class="close-btn" onclick="closeContent('beauty-content')">✨</button>
+                </div>
+            </div>
+
+            <div class="content-dropdown" id="wisdom-content">
+                <div class="dropdown-content">
+                    <div class="content-image">
+                        <div class="image-placeholder wisdom-img">🧠</div>
+                    </div>
+                    <div class="content-text">
+                        <h3>Precious Wisdom</h3>
+                        <p>Women carry generations of wisdom within them, guiding families and communities with insight and understanding.</p>
+                        <p>Their intuition and knowledge create pathways where none existed, lighting the way for others to follow.</p>
+                    </div>
+                    <button class="close-btn" onclick="closeContent('wisdom-content')">✨</button>
+                </div>
+            </div>
+
+            <div class="content-dropdown" id="love-content">
+                <div class="dropdown-content">
+                    <div class="content-image">
+                        <div class="image-placeholder love-img">💕</div>
+                    </div>
+                    <div class="content-text">
+                        <h3>Boundless Love</h3>
+                        <p>A woman's love knows no bounds - it heals, nurtures, and transforms everything it touches.</p>
+                        <p>Through love, women create homes, build communities, and make the world a warmer, more compassionate place.</p>
+                    </div>
+                    <button class="close-btn" onclick="closeContent('love-content')">✨</button>
+                </div>
+            </div>
+
+            <div class="content-dropdown" id="inspiration-content">
+                <div class="dropdown-content">
+                    <div class="content-image">
+                        <div class="image-placeholder inspiration-img">🌟</div>
+                    </div>
+                    <div class="content-text">
+                        <h3>Daily Inspiration</h3>
+                        <p>Women inspire through their actions, their words, and their very existence. They are role models and pioneers.</p>
+                        <p>Every achievement, big or small, paves the way for others and shows that anything is possible.</p>
+                    </div>
+                    <button class="close-btn" onclick="closeContent('inspiration-content')">✨</button>
+                </div>
+            </div>
+
+            <div class="content-dropdown" id="excellence-content">
+                <div class="dropdown-content">
+                    <div class="content-image">
+                        <div class="image-placeholder excellence-img">🏆</div>
+                    </div>
+                    <div class="content-text">
+                        <h3>Outstanding Excellence</h3>
+                        <p>Women excel in every field imaginable - breaking barriers and setting new standards of achievement.</p>
+                        <p>From science to arts, from homes to boardrooms, women demonstrate excellence that elevates everyone around them.</p>
+                    </div>
+                    <button class="close-btn" onclick="closeContent('excellence-content')">✨</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message Area -->
+        <div class="message-area">
+            <div class="message-box">
+                <h3>Share Your Love</h3>
+                <textarea id="messageInput" placeholder="Write a beautiful message for the amazing women in your life..." rows="3"></textarea>
+                <button class="send-btn" onclick="shareMessage()">Send Love 💌</button>
+            </div>
+            <div class="messages-display" id="messagesDisplay"></div>
+        </div>
     </main>
 
     <footer class="footer">
-        <div class="container">
-            <p>Made with ❤️ for all the amazing women in the world</p>
-            <p>© 2024 Happy Women's Day Celebration</p>
-        </div>
+        <p>Made with ❤️ for all the amazing women in the world</p>
+        <p>Click everywhere to discover more! 🌹</p>
     </footer>
 
     <script src="assets/js/script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 </body>
 </html>

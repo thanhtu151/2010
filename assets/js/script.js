@@ -1,11 +1,9 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    initializeAnimations();
+    initializeInteractiveFeatures();
     createFloatingRoses();
-    createFloatingHearts();
-    setupMobileMenu();
-    setupSmoothScrolling();
-    initializeAOS();
+    setupClickHandlers();
+    setupMessageSystem();
 });
 
 // Create floating roses background
@@ -13,7 +11,7 @@ function createFloatingRoses() {
     const roseContainer = document.getElementById('roseContainer');
     const roseEmojis = ['🌹', '🌸', '💐', '🌺'];
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 10; i++) {
         const rose = document.createElement('div');
         rose.className = 'floating-rose';
         rose.textContent = roseEmojis[Math.floor(Math.random() * roseEmojis.length)];
@@ -24,70 +22,156 @@ function createFloatingRoses() {
     }
 }
 
-// Create floating hearts in hero section
-function createFloatingHearts() {
-    const heartsContainer = document.getElementById('floatingHearts');
-    const heartEmojis = ['💖', '💕', '💗', '💝', '💘'];
+// Initialize interactive features
+function initializeInteractiveFeatures() {
+    // Add hover sound effects (optional)
+    const clickableItems = document.querySelectorAll('.clickable-item');
+    clickableItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.05) rotate(2deg)';
+        });
 
-    for (let i = 0; i < 10; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-        heart.style.left = Math.random() * 100 + '%';
-        heart.style.top = Math.random() * 100 + '%';
-        heart.style.animationDelay = Math.random() * 6 + 's';
-        heartsContainer.appendChild(heart);
-    }
-}
-
-// Mobile menu toggle
-function setupMobileMenu() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-
-    hamburger.addEventListener('click', function() {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
-
-    // Close menu when clicking on a link
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1) rotate(0deg)';
         });
     });
 }
 
-// Smooth scrolling for navigation links
-function setupSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+// Setup click handlers for interactive elements
+function setupClickHandlers() {
+    const clickableItems = document.querySelectorAll('.clickable-item');
+
+    clickableItems.forEach(item => {
+        item.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+
+            // Add clicked animation
+            this.classList.add('clicked');
+            setTimeout(() => {
+                this.classList.remove('clicked');
+            }, 600);
+
+            // Get the content type
+            const contentType = this.dataset.content;
+            if (contentType) {
+                showContent(contentType);
+                createClickEffect(e.pageX, e.pageY);
             }
         });
     });
 }
 
-// Scroll to section function
-function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        section.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
+// Show content dropdown
+function showContent(contentType) {
+    // Hide all content dropdowns first
+    const allDropdowns = document.querySelectorAll('.content-dropdown');
+    allDropdowns.forEach(dropdown => {
+        dropdown.classList.remove('active');
+    });
+
+    // Show the selected content
+    const selectedContent = document.getElementById(contentType + '-content');
+    if (selectedContent) {
+        // Small delay for better animation
+        setTimeout(() => {
+            selectedContent.classList.add('active');
+            // Scroll to the content
+            selectedContent.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }, 100);
+
+        // Create celebration effect
+        createCelebrationParticles();
+    }
+}
+
+// Close content dropdown
+function closeContent(contentId) {
+    const content = document.getElementById(contentId);
+    if (content) {
+        content.classList.remove('active');
+        createClickEffect(window.innerWidth / 2, window.innerHeight / 2);
+    }
+}
+
+// Create click effect at position
+function createClickEffect(x, y) {
+    const particles = ['🌹', '✨', '💖', '🌟', '💫'];
+    const colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ffc0cb'];
+
+    for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'celebration-particle';
+        particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        particle.style.fontSize = (20 + Math.random() * 15) + 'px';
+        particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+        const angle = (Math.PI * 2 * i) / 8;
+        const velocity = 50 + Math.random() * 50;
+        const dx = Math.cos(angle) * velocity;
+        const dy = Math.sin(angle) * velocity;
+
+        particle.style.transform = `translate(${dx}px, ${dy}px)`;
+
+        document.body.appendChild(particle);
+
+        setTimeout(() => {
+            document.body.removeChild(particle);
+        }, 2000);
+    }
+}
+
+// Create celebration particles
+function createCelebrationParticles() {
+    const emojis = ['🌹', '🌸', '💖', '✨', '🎉', '💐', '🌺'];
+    const colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ffc0cb', '#ff69b4'];
+
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            const particle = document.createElement('div');
+            particle.className = 'celebration-particle';
+            particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = '-50px';
+            particle.style.fontSize = (25 + Math.random() * 20) + 'px';
+            particle.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                if (document.body.contains(particle)) {
+                    document.body.removeChild(particle);
+                }
+            }, 3000);
+        }, i * 100);
+    }
+}
+
+// Setup message system
+function setupMessageSystem() {
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.querySelector('.send-btn');
+
+    if (sendBtn) {
+        sendBtn.addEventListener('click', shareMessage);
+    }
+
+    if (messageInput) {
+        // Allow Ctrl+Enter to send message
+        messageInput.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                shareMessage();
+            }
         });
     }
 }
 
-// Add message functionality
-function addMessage() {
+// Share message function
+function shareMessage() {
     const messageInput = document.getElementById('messageInput');
     const messagesDisplay = document.getElementById('messagesDisplay');
     const messageText = messageInput.value.trim();
@@ -97,33 +181,34 @@ function addMessage() {
         return;
     }
 
+    // Create message element
     const messageItem = document.createElement('div');
     messageItem.className = 'message-item';
-    messageItem.style.opacity = '0';
-    messageItem.style.transform = 'translateY(20px)';
 
-    const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const currentTime = new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 
     messageItem.innerHTML = `
-        <div class="message-avatar">👩</div>
-        <div class="message-content">
-            <p>${escapeHtml(messageText)}</p>
-            <span class="message-time">${currentTime}</span>
-        </div>
+        <p>${escapeHtml(messageText)}</p>
+        <span class="message-time">${currentTime}</span>
     `;
 
+    // Add to display
     messagesDisplay.insertBefore(messageItem, messagesDisplay.firstChild);
+
+    // Clear input
     messageInput.value = '';
 
-    // Animate the new message
-    setTimeout(() => {
-        messageItem.style.transition = 'all 0.5s ease';
-        messageItem.style.opacity = '1';
-        messageItem.style.transform = 'translateY(0)';
-    }, 10);
+    // Create celebration effect
+    createMessageCelebration();
 
-    // Add celebration effect
-    createCelebrationEffect();
+    // Limit messages to prevent overcrowding
+    const messages = messagesDisplay.querySelectorAll('.message-item');
+    if (messages.length > 5) {
+        messagesDisplay.removeChild(messages[messages.length - 1]);
+    }
 }
 
 // Escape HTML to prevent XSS
@@ -138,253 +223,141 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-// Create celebration effect when message is added
-function createCelebrationEffect() {
-    const colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ff69b4', '#ffc0cb'];
-    const container = document.createElement('div');
-    container.style.position = 'fixed';
-    container.style.top = '50%';
-    container.style.left = '50%';
-    container.style.transform = 'translate(-50%, -50%)';
-    container.style.pointerEvents = 'none';
-    container.style.zIndex = '9999';
-    document.body.appendChild(container);
+// Create message celebration effect
+function createMessageCelebration() {
+    const hearts = ['💖', '💕', '💗', '💝', '💘'];
+    const messageArea = document.querySelector('.message-area');
+    const rect = messageArea.getBoundingClientRect();
 
-    for (let i = 0; i < 12; i++) {
-        const particle = document.createElement('div');
-        particle.style.position = 'absolute';
-        particle.style.width = '10px';
-        particle.style.height = '10px';
-        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.borderRadius = '50%';
-        particle.style.left = '0';
-        particle.style.top = '0';
+    for (let i = 0; i < 10; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'celebration-particle';
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = (rect.left + Math.random() * rect.width) + 'px';
+        heart.style.top = (rect.top + rect.height / 2) + 'px';
+        heart.style.fontSize = (20 + Math.random() * 15) + 'px';
+        heart.style.color = '#ff69b4';
 
-        const angle = (i * 30) * Math.PI / 180;
-        const velocity = 200 + Math.random() * 100;
-        const lifetime = 1000 + Math.random() * 1000;
+        document.body.appendChild(heart);
 
-        container.appendChild(particle);
-
-        let startTime = null;
-        function animateParticle(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const progress = (timestamp - startTime) / lifetime;
-
-            if (progress < 1) {
-                const x = Math.cos(angle) * velocity * progress;
-                const y = Math.sin(angle) * velocity * progress + (progress * progress * 100);
-                const opacity = 1 - progress;
-
-                particle.style.transform = `translate(${x}px, ${y}px)`;
-                particle.style.opacity = opacity;
-
-                requestAnimationFrame(animateParticle);
-            } else {
-                container.removeChild(particle);
+        setTimeout(() => {
+            if (document.body.contains(heart)) {
+                document.body.removeChild(heart);
             }
-        }
-
-        requestAnimationFrame(animateParticle);
+        }, 2000);
     }
-
-    setTimeout(() => {
-        if (container.parentNode) {
-            container.parentNode.removeChild(container);
-        }
-    }, 3000);
-}
-
-// Initialize AOS (Animate on Scroll)
-function initializeAOS() {
-    // Simple AOS implementation since we're not loading the library
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const element = entry.target;
-                const animationType = element.dataset.aos;
-                const delay = element.dataset.aosDelay || 0;
-
-                setTimeout(() => {
-                    switch(animationType) {
-                        case 'fade-up':
-                            element.style.opacity = '1';
-                            element.style.transform = 'translateY(0)';
-                            break;
-                        case 'zoom-in':
-                            element.style.opacity = '1';
-                            element.style.transform = 'scale(1)';
-                            break;
-                    }
-                }, delay);
-
-                observer.unobserve(element);
-            }
-        });
-    }, observerOptions);
-
-    // Set initial states and observe elements
-    document.querySelectorAll('[data-aos]').forEach(element => {
-        const animationType = element.dataset.aos;
-
-        switch(animationType) {
-            case 'fade-up':
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(30px)';
-                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                break;
-            case 'zoom-in':
-                element.style.opacity = '0';
-                element.style.transform = 'scale(0.8)';
-                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                break;
-        }
-
-        observer.observe(element);
-    });
-}
-
-// Add hover effects to cards
-function initializeAnimations() {
-    // Add hover effect to tribute cards
-    document.querySelectorAll('.tribute-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-15px) rotate(1deg)';
-        });
-
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) rotate(0deg)';
-        });
-    });
-
-    // Add dynamic rose growth on click
-    document.querySelectorAll('.rose').forEach(rose => {
-        rose.addEventListener('click', function() {
-            this.style.transform = 'scale(1.3)';
-            setTimeout(() => {
-                this.style.transform = 'scale(1)';
-            }, 300);
-
-            // Create small floating rose
-            createMiniRose(this);
-        });
-    });
-}
-
-// Create mini rose effect
-function createMiniRose(element) {
-    const miniRose = document.createElement('div');
-    miniRose.textContent = '🌹';
-    miniRose.style.position = 'absolute';
-    miniRose.style.fontSize = '30px';
-    miniRose.style.pointerEvents = 'none';
-    miniRose.style.zIndex = '1000';
-    miniRose.style.transition = 'all 2s ease-out';
-
-    const rect = element.getBoundingClientRect();
-    miniRose.style.left = rect.left + rect.width / 2 + 'px';
-    miniRose.style.top = rect.top + rect.height / 2 + 'px';
-
-    document.body.appendChild(miniRose);
-
-    setTimeout(() => {
-        miniRose.style.transform = 'translateY(-100px) scale(0)';
-        miniRose.style.opacity = '0';
-    }, 10);
-
-    setTimeout(() => {
-        document.body.removeChild(miniRose);
-    }, 2000);
 }
 
 // Add keyboard navigation
 document.addEventListener('keydown', function(e) {
+    // ESC to close any open content
     if (e.key === 'Escape') {
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
+        const activeDropdowns = document.querySelectorAll('.content-dropdown.active');
+        activeDropdowns.forEach(dropdown => {
+            dropdown.classList.remove('active');
+        });
     }
 
-    // Ctrl/Cmd + Enter to submit message
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        const messageInput = document.getElementById('messageInput');
-        if (document.activeElement === messageInput) {
-            addMessage();
+    // Number keys to trigger different content
+    if (e.key >= '1' && e.key <= '6') {
+        const contents = ['strength', 'beauty', 'wisdom', 'love', 'inspiration', 'excellence'];
+        const index = parseInt(e.key) - 1;
+        if (contents[index]) {
+            showContent(contents[index]);
         }
     }
 });
 
-// Add parallax effect to hero section
-window.addEventListener('scroll', function() {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero-content');
-    const roses = document.querySelectorAll('.floating-rose');
+// Add some random interactive elements
+document.addEventListener('click', function(e) {
+    // Random rose drops on empty clicks
+    if (e.target === document.body ||
+        e.target.classList.contains('interactive-main') ||
+        e.target.classList.contains('content-areas')) {
 
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        hero.style.opacity = 1 - scrolled / 600;
+        if (Math.random() > 0.7) { // 30% chance
+            createRandomRose(e.pageX, e.pageY);
+        }
     }
-
-    roses.forEach((rose, index) => {
-        const speed = 0.5 + (index * 0.1);
-        rose.style.transform = `translateY(${scrolled * speed}px)`;
-    });
 });
 
-// Add dynamic time-based greeting
-function updateTimeBasedGreeting() {
-    const hour = new Date().getHours();
-    let greeting = 'Good day';
+// Create random rose at click position
+function createRandomRose(x, y) {
+    const rose = document.createElement('div');
+    rose.textContent = '🌹';
+    rose.style.position = 'fixed';
+    rose.style.left = x + 'px';
+    rose.style.top = y + 'px';
+    rose.style.fontSize = '30px';
+    rose.style.pointerEvents = 'none';
+    rose.style.zIndex = '9999';
+    rose.style.transition = 'all 1s ease-out';
+    rose.style.transform = 'scale(0) rotate(0deg)';
 
-    if (hour < 12) greeting = 'Good morning';
-    else if (hour < 17) greeting = 'Good afternoon';
-    else greeting = 'Good evening';
+    document.body.appendChild(rose);
 
-    // You could add this to the hero subtitle if desired
-    return greeting;
+    setTimeout(() => {
+        rose.style.transform = 'scale(1) rotate(180deg)';
+    }, 10);
+
+    setTimeout(() => {
+        rose.style.transform = 'scale(0) rotate(360deg)';
+        rose.style.opacity = '0';
+    }, 800);
+
+    setTimeout(() => {
+        if (document.body.contains(rose)) {
+            document.body.removeChild(rose);
+        }
+    }, 1800);
 }
 
-// Add confetti effect on page load
+// Add welcome message on load
 window.addEventListener('load', function() {
-    setTimeout(createPageLoadConfetti, 500);
+    setTimeout(() => {
+        const messagesDisplay = document.getElementById('messagesDisplay');
+        if (messagesDisplay) {
+            const welcomeMessage = document.createElement('div');
+            welcomeMessage.className = 'message-item';
+            welcomeMessage.innerHTML = `
+                <p>Welcome to our Women's Day celebration! Click on any emoji above to discover beautiful messages. 🌹</p>
+                <span class="message-time">Just now</span>
+            `;
+            messagesDisplay.appendChild(welcomeMessage);
+        }
+    }, 1000);
 });
 
-function createPageLoadConfetti() {
-    const colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ffc0cb', '#fff'];
-    const confettiCount = 50;
+// Add hover effects to the main title
+const mainTitle = document.querySelector('.main-title');
+if (mainTitle) {
+    mainTitle.addEventListener('mouseenter', function() {
+        createTitleSparkles();
+    });
+}
 
-    for (let i = 0; i < confettiCount; i++) {
+// Create sparkles around title
+function createTitleSparkles() {
+    const titleRect = mainTitle.getBoundingClientRect();
+    const sparkles = ['✨', '⭐', '💫'];
+
+    for (let i = 0; i < 6; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+        sparkle.style.position = 'fixed';
+        sparkle.style.left = (titleRect.left + Math.random() * titleRect.width) + 'px';
+        sparkle.style.top = (titleRect.top + Math.random() * titleRect.height) + 'px';
+        sparkle.style.fontSize = '20px';
+        sparkle.style.pointerEvents = 'none';
+        sparkle.style.zIndex = '999';
+        sparkle.style.animation = 'particleFall 1s ease-out forwards';
+
+        document.body.appendChild(sparkle);
+
         setTimeout(() => {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'fixed';
-            confetti.style.width = '10px';
-            confetti.style.height = '10px';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.top = '-10px';
-            confetti.style.opacity = '0.8';
-            confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-            confetti.style.transition = 'all 3s ease-out';
-            confetti.style.zIndex = '9999';
-            confetti.style.pointerEvents = 'none';
-
-            document.body.appendChild(confetti);
-
-            setTimeout(() => {
-                confetti.style.top = '100%';
-                confetti.style.transform = `rotate(${Math.random() * 720}deg)`;
-                confetti.style.opacity = '0';
-            }, 10);
-
-            setTimeout(() => {
-                document.body.removeChild(confetti);
-            }, 3000);
-        }, i * 30);
+            if (document.body.contains(sparkle)) {
+                document.body.removeChild(sparkle);
+            }
+        }, 1000);
     }
 }
