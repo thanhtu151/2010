@@ -135,20 +135,33 @@ html, body, * {
 .falling-item { pointer-events: auto; }   /* riêng từng emoji vẫn nhận click */
 #bouquet { position: relative; z-index: 20; } /* bó hoa nổi lên để chắc chắn nhận click */
 /* Icon đặc biệt có thông điệp */
+/* SPECIAL ICON: to hơn, glow, vẫn rơi bình thường */
 .falling-item.special{
   font-size: 2.4rem !important;
-  animation-duration: 7s !important;
+  /* 1) rơi: dùng fallDown (transform)  2) glow: chỉ đổi text-shadow (không đụng transform) */
+  animation: fallDown 7s linear forwards, glowPulse 1.2s ease-in-out infinite !important;
   filter: drop-shadow(0 0 10px rgba(255, 0, 120, .6));
-  animation-name: fallDown, pulseGlow !important;
-  animation-timing-function: linear, ease-in-out !important;
-  animation-iteration-count: 1, infinite !important;
-  animation-duration: 7s, 1.2s !important;
 }
-@keyframes pulseGlow {
-  0%{ transform: translate(-50%, var(--y, -10%)) scale(1); }
-  50%{ transform: translate(-50%, var(--y, -10%)) scale(1.15); }
-  100%{ transform: translate(-50%, var(--y, -10%)) scale(1); }
+
+/* nhãn gợi ý */
+.falling-item.special::after{
+  content: "Nhấn mình 💌";
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  top: 28px;
+  font-size: 12px; color: #c2185b;
+  background: rgba(255,255,255,.85);
+  padding: 2px 8px; border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
+
+/* chỉ đổi ánh sáng, KHÔNG đụng transform */
+@keyframes glowPulse{
+  0%  { text-shadow: 0 0 6px #ff78b0; }
+  50% { text-shadow: 0 0 16px #ff1f8b; }
+  100%{ text-shadow: 0 0 6px #ff78b0; }
+}
+
 /* Nhãn "Nhấn mình 💌" dưới icon đặc biệt */
 .falling-item.special::after{
   content: "Nhấn mình 💌";
