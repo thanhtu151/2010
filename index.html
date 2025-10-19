@@ -3,20 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <title>💖 Happy Woman Day 💖</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(to bottom right, #ffc1e3, #ffd6e8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", sans-serif;
+      position: relative;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 3rem;
+      text-shadow: 0 0 15px #ff7dc1;
+      animation: glow 2s ease-in-out infinite alternate;
+      z-index: 2;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff7dc1, 0 0 20px #ff7dc1; }
+      to { text-shadow: 0 0 25px #ff1493, 0 0 40px #ff69b4; }
+    }
+
+    .bouquet {
+      width: 200px;
+      margin-top: 20px;
+      z-index: 2;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .bouquet:hover { transform: scale(1.1); }
+
+    .message-box {
+      position: absolute;
+      bottom: 10%;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(255, 0, 102, 0.5);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      z-index: 3;
+      text-align: center;
+    }
+
+    .message-box img {
+      width: 120px;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffb6c1;
+    }
+
+    .message-box p {
+      color: #ff4d88;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* --- hiệu ứng mưa --- */
+    .falling-area {
+      position: fixed;
+      pointer-events: none;
+      inset: 0;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .falling-item {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      animation: fallDown linear forwards;
+      filter: drop-shadow(0 6px 10px rgba(255, 105, 180, 0.35));
+      user-select: none;
+    }
+
+    @keyframes fallDown {
+      0%   { transform: translate(-50%, -10%) rotate(0deg); opacity: 0.9; }
+      100% { transform: translate(-50%, 110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .floating-rose {
+      position: fixed;
+      top: -10%;
+      font-size: 2.2rem;
+      opacity: 0.25;
+      pointer-events: none;
+      animation: floatRose linear infinite;
+      z-index: 2;
+    }
+
+    @keyframes floatRose {
+      0%   { transform: translateY(-10%) translateX(0) rotate(0deg); }
+      100% { transform: translateY(120vh) translateX(40px) rotate(360deg); }
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-150px) scale(0.5); opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-  
+  <!-- icon và hoa rơi -->
   <div id="fallingArea" class="falling-area"></div>
   <div id="roseContainer"></div>
-  <h1>💐 HAPPY WOMAN DAY 💐</h1>
 
-  <img src="https://pngimg.com/uploads/bouquet/bouquet_PNG63.png"
-       class="bouquet" id="bouquet" alt="Bouquet">
+  <h1>💐 HAPPY WOMAN DAY 💐</h1>
+  <img src="https://pngimg.com/uploads/bouquet/bouquet_PNG63.png" class="bouquet" id="bouquet" alt="Bouquet">
 
   <div class="message-box" id="messageBox">
-    <img src="https://i.pinimg.com/originals/76/f9/3d/76f93d3a2f69a3a2d07310f7b1cfe7c1.png"
-         alt="Chibi">
+    <img src="https://i.pinimg.com/originals/76/f9/3d/76f93d3a2f69a3a2d07310f7b1cfe7c1.png" alt="Chibi">
     <p id="wishText">Chúc em luôn xinh đẹp, vui vẻ và được yêu thương như bông hoa này 🌸💖</p>
   </div>
 
@@ -24,6 +130,63 @@
     <source src="https://cdn.pixabay.com/download/audio/2023/07/21/audio_14a53c2514.mp3?filename=spring-romantic-piano-147085.mp3" type="audio/mpeg">
   </audio>
 
-  <script src="assets/js/script.js"></script>
+  <script>
+    // Mưa icon dễ thương
+    const icons = ['💖', '🌸', '🌹', '💐', '✨', '💕', '🩷', '🌷', '💞'];
+    const area = document.getElementById('fallingArea');
+
+    function createFallingEmoji() {
+      const emoji = document.createElement('div');
+      emoji.className = 'falling-item';
+      emoji.textContent = icons[Math.floor(Math.random() * icons.length)];
+      emoji.style.left = Math.random() * 100 + 'vw';
+      emoji.style.animationDuration = (3 + Math.random() * 3) + 's';
+      area.appendChild(emoji);
+      setTimeout(() => emoji.remove(), 6000);
+    }
+    setInterval(createFallingEmoji, 300);
+
+    // Hoa bay nền
+    const roseContainer = document.getElementById('roseContainer');
+    function createFloatingRoses() {
+      const rose = document.createElement('div');
+      rose.classList.add('floating-rose');
+      rose.textContent = ['🌷','🌹','🌸'][Math.floor(Math.random()*3)];
+      rose.style.left = Math.random() * 100 + 'vw';
+      rose.style.animationDuration = (8 + Math.random() * 8) + 's';
+      roseContainer.appendChild(rose);
+      setTimeout(() => rose.remove(), 16000);
+    }
+    setInterval(createFloatingRoses, 1000);
+
+    // Khi click vào bó hoa
+    document.getElementById('bouquet').addEventListener('click', () => {
+      const box = document.getElementById('messageBox');
+      box.style.display = 'flex';
+      const wishes = [
+        "Chúc em 20/10 thật xinh, thật duyên và luôn được yêu thương như hôm nay 💞",
+        "Em là bông hoa đẹp nhất trong vườn xuân của anh 🌹",
+        "Nếu nụ cười là phép màu thì em chính là kỳ tích 💖",
+        "Chúc em luôn rạng rỡ như ánh mặt trời và ngọt ngào như socola 🍫☀️",
+        "Anh có thể không biết làm thơ, nhưng anh biết thương em 😘"
+      ];
+      document.getElementById('wishText').textContent =
+        wishes[Math.floor(Math.random() * wishes.length)];
+
+      // Hiệu ứng trái tim bay
+      for (let i = 0; i < 15; i++) {
+        const heart = document.createElement('div');
+        heart.textContent = '💖';
+        heart.style.position = 'absolute';
+        heart.style.left = '50%';
+        heart.style.top = '60%';
+        heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+        heart.style.animation = `floatUp ${2 + Math.random() * 2}s ease-out`;
+        heart.style.transform = `translateX(${Math.random() * 200 - 100}px)`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 3000);
+      }
+    });
+  </script>
 </body>
 </html>
