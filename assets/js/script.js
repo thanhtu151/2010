@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeInteractiveFeatures();
     createFloatingRoses();
     startFallingEmojis();
+    setupDynamicImages();
     setupClickHandlers();
 });
 
@@ -118,7 +119,49 @@ function handleFallingItemClick(item, event) {
     const contentType = item.dataset.content;
     if (contentType) {
         showContent(contentType);
+        updateActiveImage(contentType);
         createClickEffect(event.pageX, event.pageY);
+    }
+}
+
+// Setup dynamic images
+function setupDynamicImages() {
+    const dynamicImages = document.querySelectorAll('.dynamic-image');
+
+    dynamicImages.forEach(image => {
+        image.addEventListener('click', function() {
+            const contentType = this.dataset.content;
+            if (contentType) {
+                showContent(contentType);
+                updateActiveImage(contentType);
+                createClickEffect(window.innerWidth / 2, window.innerHeight / 2);
+            }
+        });
+
+        // Add hover effect
+        image.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.1) rotate(5deg)';
+        });
+
+        image.addEventListener('mouseleave', function() {
+            const isActive = this.classList.contains('active');
+            this.style.transform = isActive ? 'scale(1.15)' : 'scale(1)';
+        });
+    });
+}
+
+// Update active image
+function updateActiveImage(contentType) {
+    const allImages = document.querySelectorAll('.dynamic-image');
+    allImages.forEach(img => {
+        img.classList.remove('active');
+        img.style.transform = 'scale(1)';
+    });
+
+    const activeImage = document.querySelector(`.dynamic-image[data-content="${contentType}"]`);
+    if (activeImage) {
+        activeImage.classList.add('active');
+        activeImage.style.transform = 'scale(1.15)';
     }
 }
 

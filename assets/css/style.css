@@ -162,6 +162,116 @@ body {
 .falling-item.butterfly { color: #ff9800; }
 .falling-item.sparkle { color: #e91e63; }
 
+/* Dynamic Image Container */
+.dynamic-image-container {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    pointer-events: auto;
+}
+
+.image-carousel {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(255, 182, 193, 0.3);
+    border: 2px solid #ffe0f0;
+}
+
+.dynamic-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 1rem;
+    border-radius: 15px;
+}
+
+.dynamic-image:hover {
+    transform: translateY(-10px) scale(1.1);
+    background: rgba(255, 182, 193, 0.1);
+}
+
+.dynamic-image.active {
+    transform: scale(1.15);
+    background: rgba(255, 105, 180, 0.1);
+    box-shadow: 0 5px 20px rgba(255, 105, 180, 0.3);
+}
+
+.image-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    animation: imageFloat 3s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-circle::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+.dynamic-image:hover .image-circle::before {
+    opacity: 1;
+    animation: shimmer 1s ease;
+}
+
+@keyframes imageFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes shimmer {
+    0% { transform: rotate(45deg) translateY(-100%); }
+    100% { transform: rotate(45deg) translateY(100%); }
+}
+
+.image-emoji {
+    font-size: 2.5rem;
+    z-index: 1;
+}
+
+.strength-circle { background: linear-gradient(135deg, #ff69b4, #ff1493); }
+.beauty-circle { background: linear-gradient(135deg, #e91e63, #f06292); }
+.wisdom-circle { background: linear-gradient(135deg, #9c27b0, #ba68c8); }
+.love-circle { background: linear-gradient(135deg, #ff1744, #ff5252); }
+.inspiration-circle { background: linear-gradient(135deg, #ffd700, #ffeb3b); }
+.excellence-circle { background: linear-gradient(135deg, #4caf50, #8bc34a); }
+
+.dynamic-image p {
+    font-weight: 600;
+    color: #ff1493;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.dynamic-image.active p {
+    color: #ff69b4;
+    font-weight: 700;
+}
+
 /* Content Dropdown Areas */
 .content-areas {
     position: fixed;
@@ -219,35 +329,6 @@ body {
     50% { opacity: 1; }
 }
 
-.content-image {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.image-placeholder {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    margin: 0 auto;
-    position: relative;
-    animation: imageFloat 3s ease-in-out infinite;
-}
-
-@keyframes imageFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.strength-img { background: linear-gradient(135deg, #ff69b4, #ff1493); }
-.beauty-img { background: linear-gradient(135deg, #e91e63, #f06292); }
-.wisdom-img { background: linear-gradient(135deg, #9c27b0, #ba68c8); }
-.love-img { background: linear-gradient(135deg, #ff1744, #ff5252); }
-.inspiration-img { background: linear-gradient(135deg, #ffd700, #ffeb3b); }
-.excellence-img { background: linear-gradient(135deg, #4caf50, #8bc34a); }
 
 .content-text {
     text-align: center;
@@ -323,10 +404,26 @@ body {
         font-size: 1.5rem;
     }
 
-    .image-placeholder {
-        width: 100px;
-        height: 100px;
-        font-size: 3rem;
+    .image-carousel {
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+
+    .image-circle {
+        width: 60px;
+        height: 60px;
+    }
+
+    .image-emoji {
+        font-size: 2rem;
+    }
+
+    .dynamic-image p {
+        font-size: 0.8rem;
+    }
+
+    .dynamic-image-container {
+        bottom: 70px;
     }
 
     .footer {
