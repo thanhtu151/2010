@@ -5,8 +5,7 @@
   <title>💖 Happy Woman Day 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    /* ====== Base UI ====== */
-    :root{
+    :root {
       --pink1:#ffc1e3; --pink2:#ffd6e8; --accent:#ff4d88; --shadow:rgba(255,0,102,.4);
     }
     *{box-sizing:border-box}
@@ -14,118 +13,126 @@
       margin:0; height:100vh; overflow:hidden;
       background:linear-gradient(135deg,var(--pink1),var(--pink2));
       display:flex; flex-direction:column; justify-content:center; align-items:center;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Poppins,Arial,sans-serif;
-      position:relative;
+      font-family:"Poppins",sans-serif; position:relative; cursor:none;
     }
     h1{
-      margin:10px 0 0; padding:8px 16px; color:#fff; font-size:clamp(28px,7vw,64px);
-      text-shadow:0 0 12px #ff7dc1, 0 0 24px #ff7dc1;
+      margin:10px 0 0; color:#fff; font-size:clamp(28px,7vw,64px);
+      text-shadow:0 0 15px #ff7dc1;
       animation:glow 2s ease-in-out infinite alternate; z-index:3;
     }
-    @keyframes glow{
-      from{ text-shadow:0 0 10px #ff7dc1, 0 0 20px #ff7dc1; }
-      to  { text-shadow:0 0 25px #ff1493, 0 0 40px #ff69b4; }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff7dc1, 0 0 20px #ff7dc1; }
+      to { text-shadow: 0 0 25px #ff1493, 0 0 40px #ff69b4; }
     }
 
-    .bouquet{
-      width:min(260px,50vw); margin-top:14px; z-index:3; cursor:pointer; transition:transform .25s ease;
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,.15));
+    .bouquet {
+      width:min(260px,50vw);
+      margin-top:14px; z-index:3; cursor:pointer;
+      transition:transform .25s ease; filter:drop-shadow(0 8px 16px rgba(0,0,0,.15));
     }
-    .bouquet:hover{ transform:scale(1.06) }
+    .bouquet:hover{transform:scale(1.06)}
 
     .message-box{
       position:absolute; bottom:8%; left:50%; transform:translateX(-50%);
       display:none; flex-direction:column; align-items:center; gap:10px;
       background:rgba(255,255,255,.95); padding:22px 26px; border-radius:22px;
-      box-shadow:0 8px 30px var(--shadow); z-index:4; max-width:min(90vw,520px);
-      text-align:center;
+      box-shadow:0 8px 30px var(--shadow); z-index:4; text-align:center;
       animation:pop .35s ease;
     }
-    @keyframes pop{ from{transform:translateX(-50%) scale(.9); opacity:0} to{transform:translateX(-50%) scale(1); opacity:1} }
+    @keyframes pop{from{transform:translateX(-50%) scale(.9);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
     .message-box img{
-      width:120px; height:120px; object-fit:cover; border-radius:50%;
-      box-shadow:0 0 12px #ffb6c1; border:4px solid #ffa0c8;
+      width:120px;height:120px;object-fit:cover;border-radius:50%;
+      box-shadow:0 0 12px #ffb6c1;border:4px solid #ffa0c8;
     }
-    .message-box p{ margin:0; color:var(--accent); font-weight:700; font-size:1.05rem; }
+    .message-box p{color:var(--accent);font-weight:700;font-size:1.05rem;}
 
-    /* ====== Rain / floating ====== */
     .falling-area{
-      position:fixed; inset:0; overflow:hidden; z-index:5;
-      /* phải bật pointer-events để click được emoji */
-      pointer-events:auto;
+      position:fixed;inset:0;overflow:hidden;z-index:5;pointer-events:auto;
     }
     .falling-item{
-      position:absolute; top:-10%; left:50%; transform:translateX(-50%);
-      font-size: clamp(18px, 3.5vw, 28px);
+      position:absolute;top:-10%;left:50%;transform:translateX(-50%);
+      font-size:clamp(18px,3.5vw,28px);
       animation:fallDown linear forwards;
-      filter: drop-shadow(0 6px 10px rgba(255,105,180,.35));
-      user-select:none; cursor:pointer;
+      filter:drop-shadow(0 6px 10px rgba(255,105,180,.35));
+      cursor:pointer;
     }
     @keyframes fallDown{
-      0%   { transform:translate(-50%,-10%) rotate(0deg);   opacity:.95; }
-      100% { transform:translate(-50%,110vh) rotate(360deg); opacity:0;   }
+      0%{transform:translate(-50%,-10%) rotate(0deg);opacity:.95;}
+      100%{transform:translate(-50%,110vh) rotate(360deg);opacity:0;}
     }
-
     .floating-rose{
-      position:fixed; top:-10%;
-      font-size:clamp(18px, 3.8vw, 32px);
-      opacity:.25; pointer-events:none; z-index:2;
+      position:fixed;top:-10%;
+      font-size:clamp(18px,3.8vw,32px);
+      opacity:.25;pointer-events:none;z-index:2;
       animation:floatRose linear infinite;
     }
     @keyframes floatRose{
-      0% { transform: translateY(-10%) translateX(0) rotate(0deg); }
-      100%{ transform: translateY(120vh) translateX(40px) rotate(360deg); }
+      0%{transform:translateY(-10%)translateX(0)rotate(0deg);}
+      100%{transform:translateY(120vh)translateX(40px)rotate(360deg);}
     }
 
-    /* ====== Modal for emoji click ====== */
+    /* Modal */
     .overlay{
-      position:fixed; inset:0; background:rgba(0,0,0,.35); display:none; place-items:center; z-index:20;
+      position:fixed;inset:0;background:rgba(0,0,0,.35);
+      display:none;place-items:center;z-index:20;
       animation:fadeIn .2s ease;
     }
-    @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     .card{
-      width:min(92vw,540px); background:#fff; border-radius:22px; padding:18px 20px 16px;
-      box-shadow:0 20px 50px rgba(0,0,0,.25); text-align:center; position:relative;
+      width:min(92vw,540px);background:#fff;border-radius:22px;padding:18px 20px 16px;
+      box-shadow:0 20px 50px rgba(0,0,0,.25);text-align:center;position:relative;
       animation:popCard .25s ease;
     }
-    @keyframes popCard{ from{transform:scale(.92); opacity:0} to{transform:scale(1); opacity:1} }
+    @keyframes popCard{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
     .card img{
-      width:min(220px,65vw); height:auto; border-radius:16px; box-shadow:0 10px 24px rgba(255,105,180,.35);
+      width:min(220px,65vw);border-radius:16px;
+      box-shadow:0 10px 24px rgba(255,105,180,.35);
     }
-    .card p{ margin:12px 0 0; font-size:1.05rem; color:#222 }
+    .card p{margin:12px 0 0;font-size:1.05rem;color:#222}
     .close-btn{
-      position:absolute; top:8px; right:8px; border:none; background:#ffe3ef; color:#c2185b;
-      border-radius:12px; padding:6px 10px; cursor:pointer; font-weight:700;
+      position:absolute;top:8px;right:8px;border:none;background:#ffe3ef;color:#c2185b;
+      border-radius:12px;padding:6px 10px;cursor:pointer;font-weight:700;
     }
 
-    /* Hearts when click bouquet */
-    @keyframes floatUp{
-      0% { transform: translateY(0) scale(1); opacity:1; }
-      100%{ transform: translateY(-140px) scale(.55); opacity:0; }
+    @keyframes floatUp {
+      0%{transform:translateY(0) scale(1);opacity:1;}
+      100%{transform:translateY(-140px) scale(.55);opacity:0;}
+    }
+
+    /* Music button */
+    #musicBtn{
+      position:fixed;bottom:20px;right:20px;z-index:9999;
+      background:rgba(255,255,255,0.8);padding:10px 20px;border-radius:30px;
+      cursor:pointer;box-shadow:0 0 10px rgba(255,100,150,0.5);
+      font-weight:bold;color:#d63384;user-select:none;
+    }
+
+    /* Heart trail */
+    .cursor-heart{
+      position:fixed;pointer-events:none;
+      animation:fadeMove 1s ease-out forwards;
+      font-size:18px;
+    }
+    @keyframes fadeMove{
+      0%{opacity:1;transform:translateY(0) scale(1);}
+      100%{opacity:0;transform:translateY(-50px) scale(0.6);}
     }
   </style>
 </head>
-  <!-- Nhạc nền -->
-<audio id="bgMusic" loop autoplay>
-  <source src="co-chac-yeu-la-day.mp3" type="audio/mpeg">
-</audio>
-
 <body>
 
-  <!-- Rain & floating layer -->
   <div id="fallingArea" class="falling-area"></div>
   <div id="roseContainer"></div>
 
   <h1>💐 HAPPY WOMAN DAY 💐</h1>
   <img id="bouquet" class="bouquet" src="https://pngimg.com/uploads/bouquet/bouquet_PNG63.png" alt="Bouquet" />
 
-  <!-- message box for bouquet click -->
   <div id="messageBox" class="message-box">
     <img src="https://i.pinimg.com/originals/76/f9/3d/76f93d3a2f69a3a2d07310f7b1cfe7c1.png" alt="Chibi" />
     <p id="wishText">Chúc em luôn xinh đẹp, vui vẻ và được yêu thương như bông hoa này 🌸💖</p>
   </div>
 
-  <!-- Emoji click modal -->
+  <!-- Popup khi click emoji -->
   <div id="overlay" class="overlay" aria-hidden="true">
     <div class="card" role="dialog" aria-modal="true">
       <button class="close-btn" id="closeBtn">✖</button>
@@ -134,164 +141,102 @@
     </div>
   </div>
 
+  <!-- Nhạc -->
+  <audio id="bgMusic" loop>
+    <source src="co-chac-yeu-la-day.mp3" type="audio/mpeg">
+  </audio>
+  <div id="musicBtn">🎵 Bật nhạc</div>
+
   <script>
-    /* ============== Data ============== */
     const ICONS = ['💖','🌸','🌹','💐','✨','💕','🩷','🌷','💞'];
-    // Ảnh & lời chúc theo nhóm emoji (tuỳ biến link ảnh nếu muốn)
     const CATALOG = {
-      'heart': {
-        images: [
-          'https://i.imgur.com/0O8b1dF.png',
-          'https://i.imgur.com/5yC0v5q.png',
-          'https://i.imgur.com/N5hXkz5.png'
-        ],
-        texts: [
-          'Thích em từ cái nhìn đầu tiên, thương em từ cái ôm đầu tiên 💖',
-          'Trái tim này vốn dĩ bình yên, gặp em bỗng hóa rung rinh 💞',
-          'Nếu em cần một bờ vai, anh có hai — luôn sẵn sàng! 💗'
-        ]
-      },
-      'flower': {
-        images: [
-          'https://i.imgur.com/WC1yWqk.png',
-          'https://i.imgur.com/V0k2a4U.png',
-          'https://i.imgur.com/uQGk4wI.png'
-        ],
-        texts: [
-          'Em là bông hoa đặc biệt nhất trong vườn của anh 🌷',
-          'Mỗi cánh hoa là một lời chúc xinh tươi dành cho em 🌸',
-          'Người con gái đẹp nhất chính là người đang đọc dòng này 🌹'
-        ]
-      },
-      'sparkle': {
-        images: [
-          'https://i.imgur.com/nj7m0Qa.png',
-          'https://i.imgur.com/2w2aVn6.png'
-        ],
-        texts: [
-          'Lấp lánh như em — khiến mọi nơi em đến đều sáng bừng ✨',
-          'Với em, ngày nào cũng là ngày đặc biệt ✨'
-        ]
-      }
+      heart:{images:['https://i.imgur.com/0O8b1dF.png','https://i.imgur.com/5yC0v5q.png'],texts:['Thích em từ cái nhìn đầu tiên 💖','Trái tim này rung rinh vì em 💗']},
+      flower:{images:['https://i.imgur.com/WC1yWqk.png','https://i.imgur.com/V0k2a4U.png'],texts:['Em là bông hoa đẹp nhất 🌷','Người con gái đẹp nhất chính là em 🌹']},
+      sparkle:{images:['https://i.imgur.com/nj7m0Qa.png'],texts:['Lấp lánh như em ✨']}
     };
+    const rand=a=>a[Math.floor(Math.random()*a.length)];
+    function pick(icon){if(['💖','💕','💞','🩷'].includes(icon))return CATALOG.heart;if(['🌸','🌹','🌷','💐'].includes(icon))return CATALOG.flower;return CATALOG.sparkle;}
 
-    /* ============== Helpers ============== */
-    const rand = arr => arr[Math.floor(Math.random()*arr.length)];
-
-    function pickByIcon(icon){
-      if(['💖','💕','💞','🩷'].includes(icon)) return CATALOG.heart;
-      if(['🌸','🌹','🌷','💐'].includes(icon))   return CATALOG.flower;
-      return CATALOG.sparkle;
-    }
-
-    /* ============== Rain Emojis ============== */
-    const area = document.getElementById('fallingArea');
-    function createFallingEmoji(){
-      const icon = document.createElement('div');
-      icon.className = 'falling-item';
-      const ch = rand(ICONS);
-      icon.textContent = ch;
-      icon.style.left = Math.random()*100 + 'vw';
-      icon.style.animationDuration = (3 + Math.random()*3) + 's';
-
-      // Khi click emoji: hiện modal ảnh + text
-      icon.addEventListener('click', (e)=>{
-        e.stopPropagation(); // tránh click xuyên
-        const pack = pickByIcon(ch);
-        openModal(rand(pack.images), rand(pack.texts));
+    const area=document.getElementById('fallingArea');
+    function createEmoji(){
+      const d=document.createElement('div');
+      d.className='falling-item';
+      const ch=rand(ICONS);
+      d.textContent=ch;
+      d.style.left=Math.random()*100+'vw';
+      d.style.animationDuration=(3+Math.random()*3)+'s';
+      d.addEventListener('click',e=>{
+        e.stopPropagation();
+        const pk=pick(ch);
+        openModal(rand(pk.images),rand(pk.texts));
       });
-
-      area.appendChild(icon);
-      setTimeout(()=>icon.remove(), 6500);
+      area.appendChild(d);
+      setTimeout(()=>d.remove(),6500);
     }
-    setInterval(createFallingEmoji, 300);
+    setInterval(createEmoji,300);
 
-    /* ============== Floating roses (background) ============== */
-    const roseContainer = document.getElementById('roseContainer');
-    function createFloatingRoses(){
-      const r = document.createElement('div');
-      r.className = 'floating-rose';
-      r.textContent = rand(['🌷','🌹','🌸']);
-      r.style.left = Math.random()*100 + 'vw';
-      r.style.animationDuration = (8 + Math.random()*8) + 's';
-      roseContainer.appendChild(r);
-      setTimeout(()=>r.remove(), 17000);
+    const rose=document.getElementById('roseContainer');
+    function createRose(){
+      const r=document.createElement('div');
+      r.className='floating-rose';
+      r.textContent=rand(['🌷','🌹','🌸']);
+      r.style.left=Math.random()*100+'vw';
+      r.style.animationDuration=(8+Math.random()*8)+'s';
+      rose.appendChild(r);
+      setTimeout(()=>r.remove(),17000);
     }
-    setInterval(createFloatingRoses, 1000);
+    setInterval(createRose,1000);
 
-    /* ============== Bouquet click message ============== */
-    document.getElementById('bouquet').addEventListener('click', ()=>{
-      const box = document.getElementById('messageBox');
-      box.style.display = 'flex';
-      const wishes = [
-        "Chúc em 20/10 thật xinh, thật duyên và luôn được yêu thương như hôm nay 💞",
-        "Em là bông hoa đẹp nhất trong vườn xuân của anh 🌹",
-        "Nếu nụ cười là phép màu thì em chính là kỳ tích 💖",
-        "Chúc em luôn rạng rỡ như ánh mặt trời và ngọt ngào như socola 🍫☀️",
-        "Anh có thể không biết làm thơ, nhưng anh biết thương em 😘"
-      ];
-      document.getElementById('wishText').textContent = rand(wishes);
-
-      // Hearts bay lên cho cute
-      for(let i=0;i<14;i++){
+    document.getElementById('bouquet').addEventListener('click',()=>{
+      const box=document.getElementById('messageBox');
+      box.style.display='flex';
+      const ws=["Chúc em 20/10 thật xinh và đáng yêu 💞","Em là bông hoa đẹp nhất 🌹","Nếu nụ cười là phép màu thì em chính là kỳ tích 💖"];
+      document.getElementById('wishText').textContent=rand(ws);
+      for(let i=0;i<12;i++){
         const h=document.createElement('div');
         h.textContent='💖';
         h.style.position='absolute';
-        h.style.left='50%'; h.style.top='60%';
+        h.style.left='50%';h.style.top='60%';
         h.style.fontSize=(20+Math.random()*20)+'px';
         h.style.animation=`floatUp ${2+Math.random()*2}s ease-out`;
         h.style.transform=`translateX(${Math.random()*220-110}px)`;
         document.body.appendChild(h);
-        setTimeout(()=>h.remove(), 3000);
+        setTimeout(()=>h.remove(),3000);
       }
     });
 
-    /* ============== Modal logic ============== */
-    const overlay = document.getElementById('overlay');
-    const modalImg = document.getElementById('modalImg');
-    const modalText = document.getElementById('modalText');
-    const closeBtn = document.getElementById('closeBtn');
-
-    function openModal(imgUrl, text){
-      modalImg.src = imgUrl;
-      modalText.textContent = text;
-      overlay.style.display = 'grid';
-      overlay.setAttribute('aria-hidden','false');
+    const overlay=document.getElementById('overlay');
+    const mImg=document.getElementById('modalImg');
+    const mText=document.getElementById('modalText');
+    const close=document.getElementById('closeBtn');
+    function openModal(img,text){
+      mImg.src=img; mText.textContent=text;
+      overlay.style.display='grid'; overlay.setAttribute('aria-hidden','false');
     }
-    function closeModal(){
-      overlay.style.display = 'none';
-      overlay.setAttribute('aria-hidden','true');
-    }
-    closeBtn.addEventListener('click', closeModal);
-    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
+    function closeModal(){overlay.style.display='none';overlay.setAttribute('aria-hidden','true');}
+    close.addEventListener('click',closeModal);
+    overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal();});
 
-    // Tip: bật nhạc tự động có thể bị chặn; chỉ cần người dùng click vào trang 1 cái là phát được.
+    // Music button
+    const music=document.getElementById('bgMusic');
+    const btn=document.getElementById('musicBtn');
+    let playing=false;
+    btn.onclick=()=>{
+      if(!playing){music.play();btn.textContent='🔊 Đang phát nhạc';}
+      else{music.pause();btn.textContent='🎵 Bật nhạc';}
+      playing=!playing;
+    };
+
+    // Heart trail follow mouse
+    document.addEventListener('mousemove',e=>{
+      const heart=document.createElement('div');
+      heart.className='cursor-heart';
+      heart.textContent='💖';
+      heart.style.left=e.pageX+'px';
+      heart.style.top=e.pageY+'px';
+      document.body.appendChild(heart);
+      setTimeout(()=>heart.remove(),1000);
+    });
   </script>
-  <!-- Nút bật nhạc -->
-<div id="musicBtn"
-     style="position:fixed;bottom:20px;right:20px;z-index:9999;
-            background:rgba(255,255,255,0.8);padding:10px 20px;
-            border-radius:30px;cursor:pointer;
-            box-shadow:0 0 10px rgba(255,100,150,0.5);
-            font-weight:bold;color:#d63384;">
-  🎵 Bật nhạc
-</div>
-
-<script>
-const music = document.getElementById('bgMusic');
-const btn = document.getElementById('musicBtn');
-let playing = false;
-
-btn.onclick = () => {
-  if (!playing) {
-    music.play();
-    btn.textContent = "🔊 Đang phát nhạc";
-  } else {
-    music.pause();
-    btn.textContent = "🎵 Bật nhạc";
-  }
-  playing = !playing;
-};
-</script>
 </body>
 </html>
