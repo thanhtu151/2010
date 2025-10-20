@@ -173,6 +173,22 @@ html, body, * {
   padding: 2px 8px; border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
+/* Hiệu ứng lấp lánh trái tim quanh bó hoa */
+@keyframes sparkleHeart {
+  0%   { transform: scale(0.5) translateY(0); opacity: 1; }
+  100% { transform: scale(1.8) translateY(-100px); opacity: 0; }
+}
+
+.sparkle-heart {
+  position: absolute;
+  font-size: 20px;
+  color: #ff4d88;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+  pointer-events: none;
+  animation: sparkleHeart 1.5s ease-out forwards;
+  z-index: 5;
+}
+
 
   </style>
 </head>
@@ -286,6 +302,19 @@ html, body, * {
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),3000);
       }
+      // Hiệu ứng trái tim lấp lánh quanh bó hoa
+      const rect = bouquet.getBoundingClientRect();
+      for (let i = 0; i < 15; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'sparkle-heart';
+        heart.textContent = ['💖','💕','💞','🩷'][Math.floor(Math.random()*4)];
+        heart.style.left = rect.left + rect.width/2 + (Math.random()-0.5)*160 + 'px';
+        heart.style.top  = rect.top + rect.height/2 + (Math.random()-0.5)*60 + 'px';
+        heart.style.fontSize = (18 + Math.random()*10) + 'px';
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),1500);
+      }
+
     });
 
     const overlay=document.getElementById('overlay');
