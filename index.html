@@ -189,6 +189,40 @@ html, body, * {
   z-index: 5;
 }
 
+/* === Responsive fix cho màn hình nhỏ (dưới 768px) === */
+@media (max-width: 768px) {
+  h1 {
+    font-size: clamp(22px, 6vw, 40px);
+    text-align: center;
+    margin: 4px 10px;
+  }
+  .bouquet {
+    width: 70vw;
+    margin-top: 8px;
+  }
+  .message-box {
+    width: 90%;
+    padding: 16px 18px;
+    bottom: 6%;
+  }
+  .message-box img {
+    width: 90px;
+    height: 90px;
+  }
+  .message-box p {
+    font-size: 0.95rem;
+  }
+  .card {
+    width: 90%;
+    padding: 14px;
+  }
+  #musicBtn {
+    bottom: 12px;
+    right: 12px;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+}
 
   </style>
 </head>
