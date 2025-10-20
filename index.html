@@ -215,7 +215,14 @@ html, body, * {
   <div id="roseContainer"></div>
 
   <h1>💐 HAPPY WOMAN DAY 💐</h1>
-  <img id="bouquet" class="bouquet" src="https://pngimg.com/uploads/bouquet/bouquet_PNG63.png" alt="Bouquet" />
+<div id="bouquet" class="bouquet bouquet-animated">
+  <div class="stem"></div>
+  <div class="flower flower1">🌸</div>
+  <div class="flower flower2">🌷</div>
+  <div class="flower flower3">🌹</div>
+  <div class="flower flower4">🌺</div>
+  <div class="sparkle"></div>
+</div>
 
   <div id="messageBox" class="message-box">
     <img src="https://i.pinimg.com/originals/76/f9/3d/76f93d3a2f69a3a2d07310f7b1cfe7c1.png" alt="Chibi" />
@@ -302,6 +309,59 @@ html, body, * {
       setTimeout(()=>r.remove(),17000);
     }
     setInterval(createRose,1000);
+    /* --- Bó hoa động: rung rinh và lấp lánh --- */
+.bouquet-animated {
+  position: relative;
+  width: 120px; height: 200px;
+  display: flex; justify-content: center; align-items: flex-end;
+  animation: sway 3s ease-in-out infinite;
+  transform-origin: bottom center;
+  z-index: 20;
+}
+
+/* Rung rinh nhẹ */
+@keyframes sway {
+  0% { transform: rotate(-3deg) translateY(0); }
+  50%{ transform: rotate(3deg) translateY(-2px); }
+  100%{ transform: rotate(-3deg) translateY(0); }
+}
+
+.bouquet-animated .stem {
+  width: 10px; height: 120px;
+  background: linear-gradient(to bottom, #228b22, #006400);
+  border-radius: 5px;
+  position: absolute; bottom: 0;
+}
+
+.flower {
+  position: absolute;
+  bottom: 100px;
+  font-size: 2rem;
+  animation: bloom 3s ease-in-out infinite;
+}
+
+.flower1 { left: -40px; animation-delay: 0s; }
+.flower2 { left: -10px; animation-delay: .5s; }
+.flower3 { left: 20px; animation-delay: 1s; }
+.flower4 { left: 50px; animation-delay: 1.5s; }
+
+@keyframes bloom {
+  0%,100% { transform: scale(1) rotate(0deg); }
+  50%     { transform: scale(1.15) rotate(5deg); }
+}
+
+/* Lấp lánh tim quanh bó hoa */
+.sparkle {
+  position: absolute;
+  bottom: 100px; left: 50%;
+  transform: translateX(-50%);
+  animation: sparkleLoop 1.2s linear infinite;
+}
+@keyframes sparkleLoop {
+  0%,100% { opacity: .6; text-shadow: 0 0 8px #ff8ac9; }
+  50%     { opacity: 1; text-shadow: 0 0 16px #ff4da6; }
+}
+
 // --- Hiệu ứng lấp lánh quanh bó hoa ---
     const bouquet = document.getElementById('bouquet');
     bouquet.classList.add('bouquet-glow');
