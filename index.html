@@ -173,8 +173,41 @@ html, body, * {
   padding: 2px 8px; border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
+/* --- Hiệu ứng hoa lấp lánh trái tim quanh bó hoa --- */
+.sparkle-heart {
+  position: absolute;
+  font-size: 18px;
+  opacity: 0.8;
+  color: #ff69b4;
+  pointer-events: none;
+  animation: sparkleFly 2.2s ease-out forwards;
+  text-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
+  z-index: 8;
+}
+
+@keyframes sparkleFly {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-40px + 80px * var(--randx)), calc(-40px + 80px * var(--randy))) scale(0.6);
+    opacity: 0;
+  }
+}
+
+/* Hiệu ứng sáng nhẹ quanh bó hoa */
+.bouquet-glow {
+  animation: glowPulseBouquet 2.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 18px rgba(255, 120, 170, 0.7));
+}
+@keyframes glowPulseBouquet {
+  0%   { filter: drop-shadow(0 0 10px rgba(255, 100, 150, 0.4)); }
+  100% { filter: drop-shadow(0 0 25px rgba(255, 150, 200, 0.9)); }
+}
 
   </style>
+  
 </head>
 <body>
 
@@ -269,6 +302,27 @@ html, body, * {
       setTimeout(()=>r.remove(),17000);
     }
     setInterval(createRose,1000);
+// --- Hiệu ứng lấp lánh quanh bó hoa ---
+    const bouquet = document.getElementById('bouquet');
+    bouquet.classList.add('bouquet-glow');
+    
+    function sparkleAroundBouquet() {
+      const rect = bouquet.getBoundingClientRect();
+      const count = 4 + Math.floor(Math.random() * 4);
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'sparkle-heart';
+        heart.textContent = ['💖', '💕', '🩷', '💞'][Math.floor(Math.random() * 4)];
+        heart.style.left = rect.left + rect.width / 2 + (Math.random() - 0.5) * 160 + 'px';
+        heart.style.top  = rect.top + rect.height / 2 + (Math.random() - 0.5) * 160 + 'px';
+        heart.style.setProperty('--randx', Math.random());
+        heart.style.setProperty('--randy', Math.random());
+        heart.style.fontSize = (14 + Math.random() * 10) + 'px';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 2000);
+      }
+    }
+    setInterval(sparkleAroundBouquet, 700);
 
     document.getElementById('bouquet').addEventListener('click',()=>{
       const box=document.getElementById('messageBox');
